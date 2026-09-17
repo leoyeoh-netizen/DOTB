@@ -38,7 +38,7 @@ For production, replace placeholder versions/checksums with values verified agai
 
 ## License
 
-MIT
+Not decided yet.
 
 ## Disclaimer
 
