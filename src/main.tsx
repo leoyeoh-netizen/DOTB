@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
@@ -17,8 +17,6 @@ type Distro = {
   docs: string
 }
 
-type DistroSeed = Omit<Distro, 'name' | 'slug' | 'description' | 'base' | 'desktop' | 'arch' | 'size' | 'categories' | 'logo' | 'download' | 'site' | 'docs'>
-
 const distros: Distro[] = [
   { name: 'Ubuntu', slug: 'ubuntu', description: 'A polished Debian-based Linux distribution for desktops, servers, and broad hardware support.', base: 'Debian', desktop: 'GNOME', arch: 'x86_64 / ARM64', size: '~5 GB', categories: ['beginner', 'desktop', 'gaming', 'server'], logo: 'https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png', download: 'https://ubuntu.com/download/desktop', site: 'https://ubuntu.com/', docs: 'https://help.ubuntu.com/' },
   { name: 'Linux Mint', slug: 'linux-mint', description: 'A comfortable desktop Linux distribution focused on simplicity and an easy transition from Windows.', base: 'Ubuntu / Debian', desktop: 'Cinnamon', arch: 'x86_64', size: '~3 GB', categories: ['beginner', 'desktop', 'lightweight'], logo: 'https://www.linuxmint.com/web/img/logo.png', download: 'https://www.linuxmint.com/download.php', site: 'https://www.linuxmint.com/', docs: 'https://linuxmint.com/documentation.php' },
@@ -35,9 +33,8 @@ const distros: Distro[] = [
 ]
 
 const filters = [['All', 'all'], ['Beginner Friendly', 'beginner'], ['Lightweight', 'lightweight'], ['Gaming', 'gaming'], ['Privacy', 'privacy'], ['Security', 'security'], ['Server', 'server'], ['Rolling Release', 'rolling']]
-const wizardOptions = ['beginner', 'gaming', 'security', 'lightweight', 'server', 'rolling']
 
-function ExternalLink({ href, children, className = '' }: { href: string; children: React.ReactNode; className?: string }) {
+function ExternalLink({ href, children, className = '' }: { href: string; children: ReactNode; className?: string }) {
   return <a href={href} target="_blank" rel="noopener noreferrer" className={className}>{children}</a>
 }
 
@@ -83,11 +80,11 @@ function App() {
     <main id="distros">
       <div className="sectionhead"><div><small>BROWSE</small><h2>Linux distributions</h2><p>{shown.length} projects matching your filters</p></div></div>
       <div className="grid">
-        {shown.map(d => <article className="card" key={d.slug} tabIndex={0} onClick={() => setSelected(d)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setSelected(d) }}>
+        {shown.map(d => <article className="card" key={d.slug} tabIndex={0} onClick={() => setSelected(d)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(d) } }}>
           <div className="cardtop"><div className="logo"><img src={d.logo} alt="" onError={e => { e.currentTarget.style.display = 'none' }} /></div><div><h3>{d.name}</h3><span>{d.base} · {d.desktop}</span></div></div>
           <p>{d.description}</p>
           <div className="meta"><span>{d.arch}</span><span>{d.size}</span></div>
-          <div className="actions"><ExternalLink href={d.download} className="download" >Download ↗</ExternalLink><button onClick={e => { e.stopPropagation(); setSelected(d) }}>Details</button></div>
+          <div className="actions"><ExternalLink href={d.download} className="download">Download ↗</ExternalLink><button onClick={e => { e.stopPropagation(); setSelected(d) }}>Details</button></div>
         </article>)}
       </div>
       {!shown.length && <div className="empty">No distributions found. Try a broader search.</div>}
