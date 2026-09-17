@@ -1,3 +1,5 @@
+# WARNING. THIS IS STILL W.I.P.
+
 # DistroOnTheBase 🐧
 
 A fast, open-source centralized portal for discovering Linux distributions and jumping directly to official ISO download sources.
@@ -41,5 +43,7 @@ For production, replace placeholder versions/checksums with values verified agai
 Not decided yet.
 
 ## Disclaimer
+
+STILL WORK IN PROGRESS
 
 DistroOnTheBase is an independent open-source project and is not affiliated with or endorsed by the Linux distributions listed on this website. Trademarks and logos belong to their respective owners.
